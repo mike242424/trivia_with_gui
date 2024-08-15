@@ -1,6 +1,7 @@
 import tkinter
 import html
 import requests
+import time
 
 AMOUNT = 20
 THEME_COLOR = '#314857'
@@ -72,6 +73,7 @@ class TriviaInterface:
 
     def next_question(self):
         self.index += 1
+        self.canvas.config(bg='white')
         if self.index == len(self.data):
             self.start()
         else:
@@ -81,16 +83,18 @@ class TriviaInterface:
 
     def guess_true(self):
         if self.correct_answer == 'True':
+            self.canvas.config(bg='green')
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
-            self.next_question()
         else:
-            self.next_question()
+            self.canvas.config(bg='red')
+        self.window.after(1000, self.next_question)
 
     def guess_false(self):
-        if not self.correct_answer == 'True':
+        if self.correct_answer == 'False':
+            self.canvas.config(bg='green')
             self.score += 1
             self.score_label.config(text=f'Score: {self.score}')
-            self.next_question()
         else:
-            self.next_question()
+            self.canvas.config(bg='red')
+        self.window.after(1000, self.next_question)
